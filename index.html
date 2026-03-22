@@ -399,7 +399,7 @@
   }
   .hero-big {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(72px, 11vw, 96px);
+    font-size: clamp(82px, 13vw, 112px);
     letter-spacing: 0.01em;
     color: #fff;
     line-height: 1;
@@ -492,13 +492,20 @@
   }
   .output-row.profit-row .output-name { color: var(--text-primary); font-weight: 600; font-size: 13px; }
   .output-row.profit-row .output-val { color: #fff; font-size: 15px; font-weight: 700; }
-  /* Year 1 ROI — star of the show */
+  /* Total Year 1 Cash Flow — keep green, same size */
   .output-row.star-row.highlighted {
-    background: linear-gradient(135deg, rgba(91,157,255,0.13), rgba(46,204,138,0.1));
-    border-color: rgba(91,157,255,0.4);
+    background: var(--green-bg);
+    border-color: var(--green-border);
+    padding: 11px 12px;
+    margin: 4px -12px;
+  }
+  .output-row.star-row.highlighted .output-name {
+    color: var(--text-primary);
+    font-weight: 600;
   }
   .output-row.star-row.highlighted .output-val {
-    font-size: 18px;
+    font-size: 15px;
+    font-weight: 700;
     color: var(--green);
   }
   .output-section-label {
@@ -752,11 +759,10 @@
   <!-- RIGHT: OUTPUTS -->
   <div class="right-col">
 
-    <!-- HERO NUMBER: Annual Cash Flow -->
+    <!-- HERO NUMBER: Monthly Net Profit -->
     <div class="hero-number-card">
-      <div class="hero-label">Annual Cash Flow (all <span id="hero-units">5</span> units)</div>
-      <div class="hero-big positive" id="hero-cashflow">$76,260</div>
-      <div class="hero-sub" id="hero-monthly-sub">$6,355 / month</div>
+      <div class="hero-label">Monthly Net Profit (all <span id="hero-units">5</span> units)</div>
+      <div class="hero-big positive" id="hero-cashflow">$6,355</div>
     </div>
 
     <!-- OUTPUTS -->
@@ -797,10 +803,10 @@
 
       <div class="output-section-label">Returns</div>
       <div class="output-row highlighted green-row">
-        <span class="output-name">Free Rent Savings<br><small id="out-savings-sub" style="font-size:11px;font-weight:400;opacity:0.7">2 months × $1,800 × 5 units</small></span>
+        <span class="output-name">Free Rent Savings From Vacarya<br><small id="out-savings-sub" style="font-size:11px;font-weight:400;opacity:0.7">2 months × $1,800 × 5 units</small></span>
         <span class="output-val" id="out-savings">+ $18,000</span>
       </div>
-      <div class="output-row highlighted">
+      <div class="output-row highlighted star-row">
         <span class="output-name">Total Year 1 Cash Flow</span>
         <span class="output-val" id="out-cashflow">$94,260</span>
       </div>
@@ -868,7 +874,7 @@
   function fmt(n) { return '$' + Math.round(n).toLocaleString('en-US'); }
   function fmtNeg(n) { return '− $' + Math.round(n).toLocaleString('en-US'); }
 
-  let currentHeroValue = 76260;
+  let currentHeroValue = 6355;
   let animFrame = null;
 
   function animateHero(target) {
@@ -953,9 +959,9 @@
     set('cmp-vacarya-roi', '+' + year1ROI.toFixed(0) + '%');
 
     // Hero
-    set('hero-monthly-sub', fmt(monthlyNet) + ' / month');
     set('hero-units', units);
-    animateHero(annualNet);
+    set('hero-units2', units);
+    animateHero(monthlyNet);
 
     // Slider labels
     set('val-units', units + (units === 1 ? ' Unit' : ' Units'));
