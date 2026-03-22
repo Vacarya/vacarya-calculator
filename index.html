@@ -895,6 +895,11 @@
     animFrame = requestAnimationFrame(step);
   }
 
+  function set(id, val) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = val;
+  }
+
   function recalc() {
     const units = +slUnits.value;
     const gross = +slGross.value;
@@ -921,44 +926,46 @@
     const totalROI     = totalLeaseCF / totalCapital;
     const year1ROI     = (totalYear1 / totalCapital) * 100;
 
-    document.getElementById('st-furniture').textContent = fmt(furniture);
-    document.getElementById('st-furniture-sub').textContent = `$${(setup/1000).toFixed(1)}k × ${units} units`;
-    document.getElementById('st-total').textContent = fmt(totalCapital);
-    document.getElementById('out-furniture').textContent = fmt(furniture);
-    document.getElementById('out-total-capital').textContent = fmt(totalCapital);
-    document.getElementById('out-gross').textContent = fmt(grossAll);
-    document.getElementById('out-opcosts').textContent = fmtNeg(rentAll + utilitiesAll + revShareAll);
-    document.getElementById('out-monthly').textContent = fmt(monthlyNet);
-    document.getElementById('out-annual').textContent = fmt(annualNet);
-    document.getElementById('out-savings').textContent = '+ $' + Math.round(freeRentSavings).toLocaleString('en-US');
-    document.getElementById('out-savings-sub').textContent = `${free} month${free!==1?'s':''} × ${fmt(rent)} × ${units} units`;
-    document.getElementById('out-cashflow').textContent = fmt(totalYear1);
-    document.getElementById('out-coc').textContent = '+' + cocROI.toFixed(1) + '%';
-    document.getElementById('out-roi').textContent = totalROI.toFixed(2) + 'X';
-    document.getElementById('out-year1roi').textContent = '+' + year1ROI.toFixed(1) + '%';
+    // Startup tiles
+    set('st-furniture', fmt(furniture));
+    set('st-furniture-sub', `$${(setup/1000).toFixed(1)}k × ${units} units`);
+    set('st-total', fmt(totalCapital));
+
+    // Outputs
+    set('out-furniture', fmt(furniture));
+    set('out-total-capital', fmt(totalCapital));
+    set('out-gross', fmt(grossAll));
+    set('out-opcosts', fmtNeg(rentAll + utilitiesAll + revShareAll));
+    set('out-monthly', fmt(monthlyNet));
+    set('out-annual', fmt(annualNet));
+    set('out-savings', '+ $' + Math.round(freeRentSavings).toLocaleString('en-US'));
+    set('out-savings-sub', `${free} month${free!==1?'s':''} × ${fmt(rent)} × ${units} units`);
+    set('out-cashflow', fmt(totalYear1));
+    set('out-coc', '+' + cocROI.toFixed(1) + '%');
+    set('out-roi', totalROI.toFixed(2) + 'X');
+    set('out-year1roi', '+' + year1ROI.toFixed(1) + '%');
 
     // Comparison tiles
-    const spAmt   = totalCapital * 0.08;
-    const ltrAmt  = totalCapital * 0.15;
-    const franAmt = totalCapital * 0.25;
-    document.getElementById('cmp-sp').textContent   = fmt(spAmt) + ' / yr';
-    document.getElementById('cmp-ltr').textContent  = fmt(ltrAmt) + ' / yr';
-    document.getElementById('cmp-fran').textContent = fmt(franAmt) + ' / yr';
-    document.getElementById('cmp-vacarya').textContent = fmt(annualNet) + ' / yr';
-    document.getElementById('cmp-vacarya-roi').textContent = '+' + year1ROI.toFixed(0) + '%';
-    document.getElementById('hero-monthly-sub').textContent = fmt(monthlyNet) + ' / month';
-    document.getElementById('hero-units').textContent = units;
+    set('cmp-sp',          fmt(totalCapital * 0.08) + ' / yr');
+    set('cmp-ltr',         fmt(totalCapital * 0.15) + ' / yr');
+    set('cmp-fran',        fmt(totalCapital * 0.25) + ' / yr');
+    set('cmp-vacarya',     fmt(annualNet) + ' / yr');
+    set('cmp-vacarya-roi', '+' + year1ROI.toFixed(0) + '%');
 
-    // Animate the hero number
+    // Hero
+    set('hero-monthly-sub', fmt(monthlyNet) + ' / month');
+    set('hero-units', units);
     animateHero(annualNet);
 
-    document.getElementById('val-units').textContent = units + (units === 1 ? ' Unit' : ' Units');
-    document.getElementById('val-gross').textContent = fmt(gross);
-    document.getElementById('val-setup').textContent = fmt(setup);
-    document.getElementById('val-lease').textContent = lease + ' Months';
-    document.getElementById('val-rent').textContent = fmt(rent);
-    document.getElementById('val-free').textContent = free + (free === 1 ? ' Month' : ' Months');
+    // Slider labels
+    set('val-units', units + (units === 1 ? ' Unit' : ' Units'));
+    set('val-gross', fmt(gross));
+    set('val-setup', fmt(setup));
+    set('val-lease', lease + ' Months');
+    set('val-rent',  fmt(rent));
+    set('val-free',  free + (free === 1 ? ' Month' : ' Months'));
 
+    // Fills
     updateFill(slUnits, 1, 5);
     updateFill(slGross, 2000, 10000);
     updateFill(slSetup, 5000, 25000);
