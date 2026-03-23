@@ -789,8 +789,12 @@
         <span class="output-val" id="out-gross">$18,500</span>
       </div>
       <div class="output-row">
-        <span class="output-name">Operating Costs (rent, utilities, rev share)</span>
-        <span class="output-val" id="out-opcosts" style="color:var(--text-muted)">− $12,145</span>
+        <span class="output-name">Rent / Month (all units)</span>
+        <span class="output-val" id="out-rent-total" style="color:var(--text-muted)">− $9,000</span>
+      </div>
+      <div class="output-row">
+        <span class="output-name">Operating Costs (utilities, cleaning, WiFi, 3%)</span>
+        <span class="output-val" id="out-opcosts" style="color:var(--text-muted)">− $3,145</span>
       </div>
       <div class="output-row highlighted green-row">
         <span class="output-name">Monthly Net Profit (all units)</span>
@@ -941,7 +945,8 @@
     set('out-furniture', fmt(furniture));
     set('out-total-capital', fmt(totalCapital));
     set('out-gross', fmt(grossAll));
-    set('out-opcosts', fmtNeg(rentAll + utilitiesAll + revShareAll));
+    set('out-rent-total', fmtNeg(rentAll));
+    set('out-opcosts', fmtNeg(utilitiesAll + revShareAll));
     set('out-monthly', fmt(monthlyNet));
     set('out-annual', fmt(annualNet));
     set('out-savings', '+ $' + Math.round(freeRentSavings).toLocaleString('en-US'));
